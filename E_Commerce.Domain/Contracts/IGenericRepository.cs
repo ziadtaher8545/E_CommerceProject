@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Domain.Contracts
 {
-    public interface IGenericRepository<TEntity,Tkey>where TEntity : BaseEntity<Tkey>,new()
+    public interface IGenericRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey>, new()
     {
-        Task<TEntity?> GetByIdAsync(Tkey id,CancellationToken ct);
+        Task<TEntity?> GetByIdAsync(Tkey id, CancellationToken ct);
+        Task<TEntity?> GetByIdAsync(ISpecification<TEntity, Tkey> spec, Tkey id, CancellationToken ct);
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken ct);
+        Task<IEnumerable<TEntity>> GetAllAsync(ISpecification<TEntity, Tkey> spec, CancellationToken ct);
+        Task<int> GetCountAsync(ISpecification<TEntity, Tkey> spec, CancellationToken ct);
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);

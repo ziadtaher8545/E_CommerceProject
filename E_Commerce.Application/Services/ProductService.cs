@@ -2,13 +2,9 @@
 using E_Commerce.Application.Common;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Application.DTOs.Product;
+using E_Commerce.Application.Specifications;
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace E_Commerce.Application.Services
 {
@@ -22,18 +18,23 @@ namespace E_Commerce.Application.Services
 
         }
 
-        public async Task<Result<IReadOnlyList<ProductDTO>>> GetAllProductsAsync(CancellationToken ct)
+        public async Task<Result<PaginationResult<IReadOnlyList<ProductDTO>>>> GetAllProductsAsync(ProductQueryParams request, CancellationToken ct)
         {
-
-            var data = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(ct);
+            var spec = new ProductSpecification(request);
+            var data = await _unitOfWork.GetRepository<Product, int>().GetAllAsync(spec, ct);
             var mappedData = _mapper.Map<IReadOnlyList<ProductDTO>>(data);
-            return Result<IReadOnlyList<ProductDTO>>.Ok(mappedData);
+            var countSpec = new ProductCountSpecification(request);
+            var count = await _unitOfWork.GetRepository<Product, int>().GetCountAsync(countSpec, ct);
+            var result = new PaginationResult<IReadOnlyList<ProductDTO>>(request.PageNumber, request.PageSize, count, mappedData);
+            return Result<PaginationResult<IReadOnlyList<ProductDTO>>>.Ok(result);
+
         }
 
 
 
         public async Task<Result<IReadOnlyList<TypeDTO>>> GetAllTypesAsync(CancellationToken ct)
         {
+            var spec = new ProductSpecification();
 
             var data = await _unitOfWork.GetRepository<ProductType, int>().GetAllAsync(ct);
             var mappedData = _mapper.Map<IReadOnlyList<TypeDTO>>(data);
@@ -44,7 +45,8 @@ namespace E_Commerce.Application.Services
         public async Task<Result<ProductDTO>> GetProductByIdAsync(int id, CancellationToken ct)
         {
 
-            var data = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(id, ct);
+            var spec = new ProductSpecification(id);
+            var data = await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(spec, id, ct);
             if (data == null)
                 return new Error("Product.NotFound", $"Product With {id} Wasn't Found ", ErrorType.NotFound);
 

@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceProject.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+
+    public class ProductsController : BaseController
     {
 
         private readonly IProductService _productService;
@@ -19,22 +18,25 @@ namespace E_CommerceProject.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<Result<IReadOnlyList<ProductDTO>>>> GetProducts(CancellationToken ct)
+        public async Task<ActionResult<PaginationResult<IReadOnlyList<ProductDTO>>>> GetProducts([FromQuery] ProductQueryParams request, CancellationToken ct)
         {
-            var result = await _productService.GetAllProductsAsync(ct);
-            return Ok(result);
+            var result = await _productService.GetAllProductsAsync(request, ct);
+            return ToActionResult(result);
 
         }
         [HttpGet("Brands")]
-        public async Task<ActionResult<Result<IReadOnlyList<BrandDTO>>>> GetBrands(CancellationToken ct)
-       => Ok(await _productService.GetAllBrandsAsync(ct));
+        public async Task<ActionResult<IReadOnlyList<BrandDTO>>> GetBrands(CancellationToken ct)
+       => ToActionResult(await _productService.GetAllBrandsAsync(ct));
         [HttpGet("Types")]
-        public async Task<ActionResult<Result<IReadOnlyList<TypeDTO>>>> GetTypes(CancellationToken ct)
-     => Ok(await _productService.GetAllBrandsAsync(ct));
+        [ProducesResponseType(typeof(ProductDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+
+        public async Task<ActionResult<IReadOnlyList<TypeDTO>>> GetTypes(CancellationToken ct)
+     => ToActionResult(await _productService.GetAllTypesAsync(ct));
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Result<ProductDTO>>> GetProductById([FromRoute] int id, CancellationToken ct)
-     => Ok(await _productService.GetProductByIdAsync(id, ct));
+        public async Task<ActionResult<ProductDTO>> GetProductById([FromRoute] int id, CancellationToken ct)
+     => ToActionResult(await _productService.GetProductByIdAsync(id, ct));
 
 
 

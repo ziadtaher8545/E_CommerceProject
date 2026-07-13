@@ -28,7 +28,7 @@ public class Result<TValue> : Result
 {
     private readonly TValue _value;
 
-    public TValue? data => IsSuccess ? _value : default;
+    public TValue? Data => IsSuccess ? _value : default;
 
     private Result(TValue value) : base(true, [])
     {

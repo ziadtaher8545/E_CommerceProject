@@ -1,7 +1,9 @@
 
 using E_Commerce.Application;
+using E_Commerce.Application.Profiles;
 using E_Commerce.Infrastructure;
 using E_CommerceProject.Extensions;
+using Microsoft.Extensions.FileProviders;
 
 namespace E_CommerceProject;
 
@@ -20,6 +22,7 @@ public class Program
 
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddApplicationServices();
+        builder.Services.Configure<UrlSetting>(builder.Configuration.GetSection("UrlSettings"));
 
         var app = builder.Build();
         await app.IntializeDatabaseAsync();
@@ -31,7 +34,11 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        app.UseStaticFiles(new StaticFileOptions()
+        {
+            FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Files")),
+            RequestPath = "/Files"
+        });
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
