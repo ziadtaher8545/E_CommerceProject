@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Domain.Models;
+namespace E_Commerce.Domain.Models.Products;
 
-public class ProductType : BaseEntity<int>
+public class ProductBrand:BaseEntity<int>
 {
     public string Name { get; set; } = default!;
 }

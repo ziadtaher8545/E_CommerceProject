@@ -4,7 +4,7 @@ using E_Commerce.Application.Contracts;
 using E_Commerce.Application.DTOs.Product;
 using E_Commerce.Application.Specifications;
 using E_Commerce.Domain.Contracts;
-using E_Commerce.Domain.Models;
+using E_Commerce.Domain.Models.Products;
 
 namespace E_Commerce.Application.Services
 {

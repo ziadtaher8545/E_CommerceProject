@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using E_Commerce.Application.DTOs.Product;
-using E_Commerce.Domain.Models;
+using E_Commerce.Domain.Models.Products;
 using Microsoft.Extensions.Options;
 
 namespace E_Commerce.Application.Profiles

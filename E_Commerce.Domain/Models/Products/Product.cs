@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Domain.Models;
+namespace E_Commerce.Domain.Models.Products;
 
     public class Product : BaseEntity<int>
     {

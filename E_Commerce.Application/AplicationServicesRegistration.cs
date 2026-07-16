@@ -16,6 +16,8 @@ public static class AplicationServicesRegistration
     {
         services.AddAutoMapper(t => { }, typeof(AplicationServicesRegistration).Assembly);
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IBasketService, BasketService>();
+        services.AddSingleton<ICacheService, CacheService>();
         return services;
 
     }

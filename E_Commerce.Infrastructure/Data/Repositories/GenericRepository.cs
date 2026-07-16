@@ -1,5 +1,5 @@
 ﻿using E_Commerce.Domain.Contracts;
-using E_Commerce.Domain.Models;
+using E_Commerce.Domain.Models.Products;
 using E_Commerce.Infrastructure.Data.DBContexts;
 using E_Commerce.Infrastructure.Data.Specifications;
 using Microsoft.EntityFrameworkCore;

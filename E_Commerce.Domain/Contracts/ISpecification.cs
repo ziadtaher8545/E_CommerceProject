@@ -1,4 +1,4 @@
-﻿using E_Commerce.Domain.Models;
+﻿using E_Commerce.Domain.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;

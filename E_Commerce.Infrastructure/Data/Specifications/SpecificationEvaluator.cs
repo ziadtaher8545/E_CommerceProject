@@ -1,5 +1,5 @@
 ﻿using E_Commerce.Domain.Contracts;
-using E_Commerce.Domain.Models;
+using E_Commerce.Domain.Models.Products;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
