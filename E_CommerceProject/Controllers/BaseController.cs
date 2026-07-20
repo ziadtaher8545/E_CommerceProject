@@ -1,6 +1,8 @@
 ﻿using E_Commerce.Application.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_CommerceProject.Controllers
 {
@@ -18,6 +20,10 @@ namespace E_CommerceProject.Controllers
             }
         }
 
+        protected string GetEmailByToken()
+        {
+            return User.FindFirst(ClaimTypes.Email)!.Value ?? throw new UnauthorizedAccessException("You must to Log in First:)");
+        }
         protected static ObjectResult ToProblem(IReadOnlyList<Error> errors)
         {
             var firstError = errors[0];

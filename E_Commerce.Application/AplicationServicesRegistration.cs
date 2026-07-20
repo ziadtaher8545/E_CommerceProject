@@ -18,6 +18,8 @@ public static class AplicationServicesRegistration
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IBasketService, BasketService>();
         services.AddSingleton<ICacheService, CacheService>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IOrderService, OrderService>();
         return services;
 
     }

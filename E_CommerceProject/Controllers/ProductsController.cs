@@ -1,6 +1,6 @@
 ﻿using E_Commerce.Application.Common;
 using E_Commerce.Application.Contracts;
-using E_Commerce.Application.DTOs.Product;
+using E_Commerce.Application.DTOs.Products;
 using E_CommerceProject.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

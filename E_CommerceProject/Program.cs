@@ -2,6 +2,8 @@
 using E_Commerce.Application;
 using E_Commerce.Application.Profiles;
 using E_Commerce.Infrastructure;
+using E_Commerce.Infrastructure.Identity.Data.Entities;
+using E_Commerce.Infrastructure.Identity.Services;
 using E_CommerceProject.Extensions;
 using Microsoft.Extensions.FileProviders;
 
@@ -23,7 +25,7 @@ public class Program
         builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddApplicationServices();
         builder.Services.Configure<UrlSetting>(builder.Configuration.GetSection("UrlSettings"));
-
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
         var app = builder.Build();
         await app.IntializeDatabaseAsync();
 
@@ -41,6 +43,7 @@ public class Program
         });
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
 

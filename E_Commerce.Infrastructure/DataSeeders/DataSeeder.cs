@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Domain.Contracts;
+using E_Commerce.Domain.Models.Orders;
 using E_Commerce.Domain.Models.Products;
 using E_Commerce.Infrastructure.Data.DBContexts;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Infrastructure.Data.DataSeeders
+namespace E_Commerce.Infrastructure.DataSeeders
 {
     internal class DataSeeder(StoreDBContext _dBContext, ILogger<DataSeeder> logger) : IDataSeeder
     {
@@ -23,6 +24,8 @@ namespace E_Commerce.Infrastructure.Data.DataSeeders
             await SeedData<ProductType, int>(rootpath, "types.json", ct);
             await SeedData<ProductBrand, int>(rootpath, "brands.json", ct);
             await SeedData<Product, int>(rootpath, "products.json", ct);
+            
+            await SeedData<DeliveryMethod, int>(rootpath, "delivery.json", ct);
         }
         private async Task SeedData<TEntity, Tkey>(string rootpath, string FileName, CancellationToken ct) where TEntity : BaseEntity<Tkey>, new()
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Application.DTOs.Product
+namespace E_Commerce.Application.DTOs.Products
 {
     public class ProductDTO
     {
