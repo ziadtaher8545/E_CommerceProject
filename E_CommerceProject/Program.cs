@@ -1,5 +1,6 @@
 
 using E_Commerce.Application;
+using E_Commerce.Application.Common;
 using E_Commerce.Application.Profiles;
 using E_Commerce.Infrastructure;
 using E_Commerce.Infrastructure.Identity.Data.Entities;
@@ -26,6 +27,7 @@ public class Program
         builder.Services.AddApplicationServices();
         builder.Services.Configure<UrlSetting>(builder.Configuration.GetSection("UrlSettings"));
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
+        builder.Services.Configure<PaymentGatwaySettings>(builder.Configuration.GetSection("Stripe"));
         var app = builder.Build();
         await app.IntializeDatabaseAsync();
 

@@ -1,6 +1,5 @@
 ﻿using E_Commerce.Application.Contracts;
 using E_Commerce.Domain.Contracts;
-using E_Commerce.Domain.Models;
 using E_Commerce.Infrastructure.Data;
 using E_Commerce.Infrastructure.Data.DBContexts;
 using E_Commerce.Infrastructure.Data.Repositories;
@@ -8,21 +7,15 @@ using E_Commerce.Infrastructure.DataSeeders;
 using E_Commerce.Infrastructure.Identity.Data.Contexts;
 using E_Commerce.Infrastructure.Identity.Data.Entities;
 using E_Commerce.Infrastructure.Identity.Services;
+using E_Commerce.Infrastructure.Payments;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.IdentityModel.Tokens.Experimental;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
 using System.Text;
-using System.Text.Unicode;
-using System.Threading.Tasks;
 
 namespace E_Commerce.Infrastructure;
 
@@ -80,6 +73,7 @@ public static class InfrastructureServicesRegistration
             };
 
         });
+        services.AddScoped<IPaymentGatway,StripePaymentGatway>();
 
 
 

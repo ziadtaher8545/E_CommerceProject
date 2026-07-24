@@ -16,7 +16,7 @@ namespace E_Commerce.Domain.Models.Orders
             ICollection<OrderItem> items,
             OrderAddress shipToAddress,
             DeliveryMethod deliveryMethod,
-            decimal subTotal
+            decimal subTotal, string? paymentintend
            )
         {
             BuyerEmail = buyerEmail;
@@ -25,6 +25,7 @@ namespace E_Commerce.Domain.Models.Orders
             DeliveryMethod = deliveryMethod;
             DeliveryMethodId = deliveryMethod.Id;
             SubTotal = subTotal;
+            PaymentIntendId = paymentintend
 
         }
 
@@ -36,6 +37,8 @@ namespace E_Commerce.Domain.Models.Orders
         public int DeliveryMethodId { get; private set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public decimal SubTotal { get; private set; }
+
+        public string? PaymentIntendId { get; set; }
 
         public decimal GetTotal() => SubTotal + (DeliveryMethod?.Cost ?? 0);
 

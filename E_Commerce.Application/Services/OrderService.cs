@@ -53,6 +53,7 @@ namespace E_Commerce.Application.Services
                         ProductName = product.Name,
                         PictureUrl = product.PictureUrl
                     }
+
                 });
             }
             var shipAddress = mapper.Map<OrderAddress>(orderDTO.ShippingAddress);
@@ -61,7 +62,7 @@ namespace E_Commerce.Application.Services
             var subtotal = orderItems.Sum(o => o.Quantity * o.Price);
 
 
-            var order = new Order(email, orderItems, shipAddress, deliveryMethod, subtotal);
+            var order = new Order(email, orderItems, shipAddress, deliveryMethod, subtotal, basket.PaymentIntendId);
             unitOfWork.GetRepository<Order, Guid>().Add(order);
             var result = await unitOfWork.SaveChangesAsync(ct);
             if (result == 0)
@@ -73,5 +74,31 @@ namespace E_Commerce.Application.Services
 
 
         }
+
+        public async Task<Result<IReadOnlyList<DeliveryMethodDTO>>> GetDeliveryMethodAsync(CancellationToken ct)
+        {
+            var dliveryMethods = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAllAsync(ct);
+            return Result<IReadOnlyList<DeliveryMethodDTO>>.Ok(mapper.Map<IReadOnlyList<DeliveryMethodDTO>>(dliveryMethods));
+        }
+
+        public async Task<Result<OrderToReturnDTO>> GetOrderByIdAndEmailAsync(Guid id, string email, CancellationToken ct)
+        {
+            var spec = new OrderSpecification(email);
+            var order = await unitOfWork.GetRepository<Order, Guid>().GetByIdAsync(spec, id, ct);
+            if (order == null)
+                return Result<OrderToReturnDTO>.Fail(Error.NotFound("OrdrerNotFound", $"The User With email {email} Is hasn't Order wit id{id}"));
+            return Result<OrderToReturnDTO>.Ok(mapper.Map<OrderToReturnDTO>(order));
+
+        }
+
+        public async Task<Result<IReadOnlyList<OrderToReturnDTO>>> GetUserOrdersAsync(string email, CancellationToken ct)
+        {
+            var spec = new OrderSpecification(email);
+            var orders = await unitOfWork.GetRepository<Order, Guid>().GetAllAsync(spec, ct);
+            if (orders == null) return Result<IReadOnlyList<OrderToReturnDTO>>.Fail(Error.NotFound("OrdrerNotFound", $"The User With email {email} Is hasn't Orders"));
+            return Result<IReadOnlyList<OrderToReturnDTO>>.Ok(mapper.Map<IReadOnlyList<OrderToReturnDTO>>(orders));
+
+        }
+
     }
 }

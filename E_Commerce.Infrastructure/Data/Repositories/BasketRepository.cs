@@ -23,7 +23,7 @@ namespace E_Commerce.Infrastructure.Data.Repositories
         public async Task<CustomerBasket?> CreateOrUpdateBasketAsync(CustomerBasket basket, TimeSpan? timeToLive = null, CancellationToken ct = default)
         {
             var value = JsonSerializer.Serialize(basket);
-            var result = await _database.StringSetAsync(basket.Id, value, timeToLive ?? TimeSpan.FromMinutes(1));
+            var result = await _database.StringSetAsync(basket.Id, value, timeToLive ?? TimeSpan.FromHours(1));
             return result ? basket : null;
         }
 
